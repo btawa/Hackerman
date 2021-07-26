@@ -11,7 +11,7 @@ class Tasks(commands.Cog):
     async def usapi_loop(self, ctx):
         self.scraper.get_usapi_count()
         if self.scraper.lastus < self.scraper.us_api_count:
-            await ctx.channel.send(f'```US API CARD COUNT HAS CHANGED:\nLast:{self.scraper.lastus}\nCurrent: {self.scraper.us_api_countt}```')
+            await ctx.channel.send(f'```US API CARD COUNT HAS CHANGED:\nLast:{self.scraper.lastus}\nCurrent: {self.scraper.us_api_count}```')
         self.scraper.lastus = self.scraper.us_api_count
 
     @tasks.loop(seconds=30.0)

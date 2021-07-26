@@ -11,8 +11,6 @@ parser = argparse.ArgumentParser(description='Run a Hackerman bot"')
 parser.add_argument('-t', '--token', type=str, help='Discord bot token that will be used', required=True)
 args = parser.parse_args()
 
-DISCORD_TOKEN = args.token
-
 bot = commands.Bot(command_prefix="#")
 bot.add_cog(Tasks(bot))
 
