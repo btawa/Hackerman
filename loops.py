@@ -6,6 +6,7 @@ class Tasks(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.scraper = Scraper()
+        self.status = False
 
     @tasks.loop(seconds=30.0)
     async def usapi_loop(self, ctx):
@@ -36,11 +37,20 @@ class Tasks(commands.Cog):
         self.usapi_loop.start(ctx)
         self.jpcardstxt_loop.start(ctx)
         self.spoof_loop.start(ctx)
+        self.status = True
         await ctx.channel.send('```starting loops```')
 
     @commands.command()
     async def stop(self, ctx):
-        self.usapi_loop.stop(ctx)
-        self.jpcardstxt_loop.stop(ctx)
-        self.spoof_loop.stop(ctx)
+        self.usapi_loop.stop()
+        self.jpcardstxt_loop.stop()
+        self.spoof_loop.stop()
+        self.status = False
         await ctx.channel.send('```stopping loops```')
+
+    @commands.command()
+    async def status(self, ctx):
+        if self.status is True:
+            await ctx.channel.send('```Loops are running```')
+        if self.status is False:
+            await ctx.channel.send('```Loops are not running```')
