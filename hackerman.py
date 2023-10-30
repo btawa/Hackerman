@@ -12,7 +12,7 @@ parser.add_argument('-t', '--token', type=str, help='Discord bot token that will
 args = parser.parse_args()
 
 bot = commands.Bot(command_prefix="#")
-bot.add_cog(Tasks(bot))
+
 
 
 @bot.event
@@ -23,6 +23,7 @@ async def on_ready():
     logging.info(f"Startup Time: {str(datetime.datetime.utcnow())}")
     logging.info(f"Guilds Added: {str(len(bot.guilds))}")
     logging.info(f"------")
+    bot.add_cog(Tasks(bot))
 
 
 bot.run(args.token)

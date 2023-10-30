@@ -1,5 +1,8 @@
 from discord.ext import tasks, commands
 from scraper import Scraper
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
 
 
 class Tasks(commands.Cog):
@@ -10,6 +13,7 @@ class Tasks(commands.Cog):
 
     @tasks.loop(seconds=30.0)
     async def usapi_loop(self, ctx):
+        logging.info("Starting US API Loop")
         self.scraper.get_usapi_count()
         if self.scraper.lastus < self.scraper.us_api_count:
             await ctx.channel.send(f'```US API CARD COUNT HAS CHANGED:\nLast:{self.scraper.lastus}\nCurrent: {self.scraper.us_api_count}```')
@@ -17,6 +21,7 @@ class Tasks(commands.Cog):
 
     @tasks.loop(seconds=30.0)
     async def jpcardstxt_loop(self, ctx):
+        logging.info("Starting JP API Loop")
         self.scraper.get_listcardtxt_count()
         if self.scraper.lastjp < self.scraper.jp_listcardtxt_count:
             await ctx.channel.send(f'```JP CARDTXT COUNT HAS CHANGED:\nLast:{self.scraper.lastjp}\nCurrent: {self.scraper.jp_listcardtxt_count}```')
@@ -31,6 +36,17 @@ class Tasks(commands.Cog):
     @commands.command()
     async def spoof(self, ctx):
         self.scraper.spoof_count += 1
+
+    @commands.command()
+    async def cc(self, ctx):
+        await ctx.channel.send(f"```Current Counts:\n\nJP (Card.txt): {self.scraper.lastjp}\nUS: {self.scraper.lastus}\nLast Spoof: {self.scraper.lastspoof}```")
+
+    @commands.command()
+    async def sources(self, ctx):
+        us_source = "https://fftcg.square-enix-games.com/en/get-cards"
+        jp_source = "http://www.square-enix-shop.com/jp/ff-tcg/card/data/list_card.txt"
+
+        await ctx.channel.send(f"US: <{us_source}>\nJP: <{jp_source}>")
 
     @commands.command()
     async def start(self, ctx):
