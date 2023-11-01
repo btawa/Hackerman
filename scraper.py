@@ -34,10 +34,12 @@ class Scraper:
 
             self.jp_listcardtxt_count = len(cards)
 
+            logging.info(f"Finished JP Request - Count {self.jp_listcardtxt_count} - Requested Elapsed Time: {data.elapsed}")
+
         except Exception as e:
             logging.error(e)
 
-        logging.info(f"Finished JP Request - Count {self.jp_listcardtxt_count} - Requested Elapsed Time: {data.elapsed}")
+
         return self.jp_listcardtxt_count
 
     def get_usapi_count(self):
@@ -51,9 +53,9 @@ class Scraper:
 
             self.us_api_count = content['count']
 
+            logging.info(f"Finished US Request - Count: {self.us_api_count} - Request Elapsed Time: {data.elapsed}")
+
         except Exception as e:
             logging.error(e)
 
-        logging.info(f"Finished US Request - Count: {self.us_api_count} - Request Elapsed Time: {data.elapsed}")
         return self.us_api_count
-
