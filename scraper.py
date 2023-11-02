@@ -23,7 +23,7 @@ class Scraper:
         square_jp_api = "http://www.square-enix-shop.com/jp/ff-tcg/card/data/list_card.txt"
 
         try:
-            data = requests.get(square_jp_api)
+            data = requests.get(square_jp_api, timeout=5)
             data.encoding = 'utf-8'
             content = data.text.split('\n')
             cards = []
@@ -39,7 +39,6 @@ class Scraper:
         except Exception as e:
             logging.error(e)
 
-
         return self.jp_listcardtxt_count
 
     def get_usapi_count(self):
@@ -47,7 +46,7 @@ class Scraper:
         square_us_api = "https://fftcg.square-enix-games.com/en/get-cards"
 
         try:
-            data = requests.get(square_us_api)
+            data = requests.get(square_us_api, timeout=5)
             data.encoding = 'utf-8'
             content = json.loads(data.text)
 
